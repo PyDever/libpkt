@@ -26,4 +26,16 @@ efficiently handle TCP/IP packets.
 ### Contributions
 Contributions are welcome, however please read the [guidlines](google.com).
 
-### Usage Examples
+### Small API Documentation
+
+#### ***SHIT GETS NERDY HERE! KNOW YOUR STUFF BEFORE READING ON!*** ####
+
+libpkt has smaller sub-modules that do specific things. 
+
+ * `ifs` for low-level newtwork interface control
+ * `pkt` for packet manipulation
+ * `psocket` for sniffing and sending packets
+
+Let us learn the `ifs` module first. As you may know, every computer
+has a network card that houses multiple interfaces. All internet and TCP/IP
+connections are made through one of those interfaces. 
