@@ -23,18 +23,18 @@ efficiently handle TCP/IP packets.
   * `array` for low-level structures
   * `fcntl` for low-level file control
 
-### Contributions
+## Contributions
 Contributions are welcome, however please read the [guidlines](google.com).
 
-### Small API Documentation
-
-#### ***SHIT GETS NERDY HERE! KNOW YOUR STUFF BEFORE READING ON!*** ####
+## Small API Documentation
 
 libpkt has smaller sub-modules that do specific things. 
 
  * `ifs` for low-level newtwork interface control
  * `pkt` for packet manipulation
  * `psocket` for sniffing and sending packets
+
+### ifs module 
 
 Let us learn the `ifs` module first. As you may know, every computer
 has a network card that houses multiple interface. The interface's IP address is 
