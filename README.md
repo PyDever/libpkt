@@ -39,19 +39,19 @@ libpkt has smaller sub-modules that do specific things.
 Let us learn the `ifs` module first. As you may know, every computer
 has a network card that houses multiple interface. The interface's IP address is 
 your IP address! Let us grab a list of interfaces!
-```
+```python
 from libpkt import ifs
 
 # grab a list of interfaces
 print ifs.l()
 ```
 *output*
-```
+```python
 [('lo', '\x7f\x00\x00\x01'), ('enp0', '\xc0\xa8\xc8[')]
 ```
 As you can see, we have two main interfaces: `lo` and `enp0`. To the right of that interface
 is the address... its heavily encoded. Let us format our IP using `fmt_ip`.
-```
+```python
 from libpkt import ifs
 
 # grab the lo interface
@@ -61,13 +61,13 @@ lo = ifs.l()[0]
 print ifs.fmt_ip(lo)
 ```
 *output*
-```
+```python
 127.0.0.1
 ```
 As you might have expected, I have a typical interface IP.  You can get all interface IPs 
 using `fmt_summary`. This way is more efficient and actually faster.
 
-```
+```python
 from libpkt import ifs
 
 # grab all interfaces
