@@ -8,6 +8,17 @@ $ make build
 ```
 NOTE: libpkt only runs on UNIX systems!
 
+```python
+from libpkt import pkt
+
+new_packet = pkt.make(
+    src_ip='127.0.0.1', 
+    dst_ip='198.148.81.136', 
+    ip_id=54321, ip_ver=4, tcp_seq=454,
+    d_hdr=random._urandom(1024)
+)
+```
+
 ## About libpkt
 libpkt is a simple packet manipulation library for Python. It is specially designed to
 efficiently handle TCP/IP packets. 
@@ -16,19 +27,5 @@ efficiently handle TCP/IP packets.
   * ***fast*** packing and unpacking
   * efficient data injection
   * ***faster*** THAN SCAPY!
-  
- libpkt ***only*** has ***standard library*** dependencies!
- 
-  * `socket` for obvious reasons
-  * `struct` for C-esk functionality
-  * `random` for byte generation
-  * `time` for plotting delays
-  * `array` for low-level structures
-  * `fcntl` for low-level file control
-
-## Contributions
-Contributions are welcome, however please read the [guidlines](google.com).
-
-
 
 
