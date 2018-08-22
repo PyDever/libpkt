@@ -2,11 +2,14 @@
 
 import socket # for network stuff
 import random # building packets
-from struct import *
+import struct # for packing headers
 
-import fcntl, array, time
+import fcntl  # file descriptor ops
+import array  # for building arrays
+import time   # for building timeouts
 
 def checksum(msg):
+    """grab the checksum of a string"""
     s = 0
      
     # loop taking 2 characters at a time
@@ -14,27 +17,36 @@ def checksum(msg):
         w = ord(msg[i]) + (ord(msg[i+1]) << 8 )
         s = s + w
      
-    #complement and mask to 4 byte short
+    # complement and mask to 4 byte short
     s = ~s & 0xffff
      
     return s
 
-def ip (src_ip='0.0.0.0', dst_ip='0.0.0.0',
-    ip_id=00000, d_hdr=random._urandom(8)):
+def make (src_ip='0.0.0.0', dst_ip='0.0.0.0',
+    ip_id=00000, ip_ver=4, tcp_seq=454, d_hdr=random._urandom(8)):
+
+    """
+    perhaps the most complicated of our functions, this function
+    will build a TCP/IP packet in real time.
+    """
     source_ip = src_ip
     dest_ip = dst_ip
     data_header = d_hdr
+
     # ip header fiels_addr
     ip_ihl = 5
     ip_ver = 4
     ip_tos = 0
     ip_tot_len = 0 
     ip_id = 54321   #Id of this packet
+
     ip_frag_off = 0
     ip_ttl = 255
     ip_proto = socket.IPPROTO_TCP
     ip_check = 0    # kernel will fill the correct checksum
+
     ip_saddr = socket.inet_aton ( source_ip )   #Spoof the source ip address if you want to
+
     ip_daddr = socket.inet_aton ( dest_ip )
     
     ip_ihl_ver = (ip_ver << 4) + ip_ihl
@@ -44,11 +56,15 @@ def ip (src_ip='0.0.0.0', dst_ip='0.0.0.0',
     
     # tcp header fields
     tcp_source = 1234   # source port
+
     tcp_dest = 80   # destination port
+
     tcp_seq = 454
     tcp_ack_seq = 0
     tcp_doff = 5    #4 bit field, size of tcp header, 5 * 4 = 20 bytes
+
     #tcp flags
+
     tcp_fin = 0
     tcp_syn = 1
     tcp_rst = 0
@@ -56,6 +72,7 @@ def ip (src_ip='0.0.0.0', dst_ip='0.0.0.0',
     tcp_ack = 0
     tcp_urg = 0
     tcp_window = socket.htons (5840)    #   maximum allowed window size
+
     tcp_check = 0
     tcp_urg_ptr = 0
     
@@ -87,7 +104,7 @@ def ip (src_ip='0.0.0.0', dst_ip='0.0.0.0',
     packet = ip_header + tcp_header + user_data
     return packet
 
-def rd_in (packet):
+def open (packet):
     #take first 20 characters for the ip header
     ip_header = packet[0:20]
     #now unpack them :)
