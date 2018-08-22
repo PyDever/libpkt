@@ -7,21 +7,25 @@ import socket # for network stuff
 import random # building packets
 import struct # for packing headers
 
-import fcntl, array, time
+import fcntl  # file descriptor ops
+import array  # for building arrays
+import time   # for building timeouts
 
+# globals
+SOCKET = socket.socket(socket.AF_INET,
+    socket.SOCK_DGRAM)
 
-def l (): 
+FCNTL = fcntl
+
+def ls_ifs (fileno=None, ioctl=None): 
+    """listing available network interfaces"""
     max_possible = 128
     bytes = max_possible * 32 
 
-    my_socket = socket.socket(socket.AF_INET,
-        socket.SOCK_DGRAM)
-
     names = array.array('B', '\0' * bytes)
 
-    outbytes = struct.unpack('iL', fcntl.ioctl(
-        my_socket.fileno(),
-
+    outbytes = struct.unpack('iL', ioctl(
+        fileno,
         0x8912, # SIOCGIFCONF
 
         struct.pack('iL', bytes, names.buffer_info()[0])
@@ -39,20 +43,20 @@ def l ():
 
     return lst
 
-def fmt_ip(addr):
-    return str(ord(addr[0])) + '.' + \
-           str(ord(addr[1])) + '.' + \
-           str(ord(addr[2])) + '.' + \
-           str(ord(addr[3]))
+def fmt_ip(interface=None):
+    """format the IP address of one interface"""
 
-def fmt_summary (interfaces):
+    return str(ord(interface[1][0])) + '.' + \
+           str(ord(interface[1][1])) + '.' + \
+           str(ord(interface[1][2])) + '.' + \
+           str(ord(interface[1][3]))
+
+def fmt_summary (interfaces=None):
+    """format the IP addresses of all interfaces"""
     ips = []
     for interface in interfaces:
         ips.append(
             fmt_ip(interface[1])
         )
     return ips
-
-
-
 
