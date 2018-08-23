@@ -17,7 +17,7 @@ SOCKET = socket.socket(socket.AF_INET,
 
 FCNTL = fcntl
 
-def ls_ifs (fileno=None, ioctl=None): 
+def ls_ifs (fileno=SOCKET.fileno(), ioctl=FCNTL.ioctl): 
     """listing available network interfaces"""
     max_possible = 128
     bytes = max_possible * 32 
