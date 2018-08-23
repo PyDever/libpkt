@@ -27,7 +27,7 @@ my_packet = libpkt.build_packet(
     d_hdr=random._urandom(1024)
 )
 ```
-<hr>
+<hr></hr>
 ```python
 # capture and inspect a packet
 import libpkt
@@ -38,7 +38,7 @@ some_packet = libpkt.silent_packet_capture(max_bb=65000, cnt=1)[0]
 # get the data from the packet
 print libpkt.open_captured_packet(some_packet)['d_hdr']
 ```
-<hr>
+<hr></hr>
 ```python
 # continued...
 # perform injection attack
