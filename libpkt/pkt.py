@@ -2,8 +2,7 @@
 
 import socket # for network stuff
 import random # building packets
-import struct # for packing headers
-
+from struct import *
 import fcntl  # file descriptor ops
 import array  # for building arrays
 import time   # for building timeouts
