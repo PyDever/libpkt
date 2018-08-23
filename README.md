@@ -27,16 +27,35 @@ my_packet = libpkt.build_packet(
     d_hdr=random._urandom(1024)
 )
 ```
+<hr>
 ```python
 # capture and inspect a packet
 import libpkt
 
 # capture one random network packet
-my_packet = libpkt.silent_packet_capture(max_bb=65000, cnt=1)[0]
+some_packet = libpkt.silent_packet_capture(max_bb=65000, cnt=1)[0]
 
 # get the data from the packet
-print libpkt.open_captured_packet(my_packet)['d_hdr']
+print libpkt.open_captured_packet(some_packet)['d_hdr']
 ```
+<hr>
+```python
+# continued...
+# perform injection attack
+
+new_packet = libpkt.build_packet(
+    src_ip=libpkt.open_captured_packet(some_packet)['src_ip'],
+    dst_ip=libpkt.open_captured_packet(some_packet)['dst_ip'],
+    ip_id=1503327, ip_ver=4, tcp_seq=454,
+    d_hdr=random._urandom(1024)
+)
+
+libpkt.send_packet(new_packet, 
+ dst_ip=libpkt.open_captured_packet(some_packet)['dst_ip'],
+ dst_p=00000)
+```
+
+
   * ***fast*** packet capture algorithm
   * ***fast*** packing and unpacking
   * efficient data injection
