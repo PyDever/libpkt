@@ -17,9 +17,9 @@ $ make build
 NOTE: libpkt only runs on UNIX systems!
 
 ```python
-from libpkt import pkt
+import libpkt
 
-new_packet = pkt.make(
+my_packet = libpkt.build_packet(
     src_ip='127.0.0.1', 
     dst_ip='198.148.81.136', 
     ip_id=54321, ip_ver=4, tcp_seq=454,
