@@ -38,7 +38,7 @@ NOTE: libpkt only runs on UNIX systems!
 >>> pkt.bin
 �������G�2���;�/ꖛK]�Hhu��y���jo��*�����31%ő��.���8F�Aq5�y����kXUUtG�SҠ��«T�Ġk�lɆ��M��D%�qBn��_˝P�{?�L��r-x��X����,@�+��^>|;ЍA�vJ+g��������G�2����������G�2���;�/ꖛK]�Hhu��y���jo��*�����31%ő��.���8F�Aq5�y����kXUUtG�SҠ��«T�Ġk�lɆ��M��D%�qBn��_˝P�{?�L��r-x��X����,@�+��^>|;ЍA�vJ+g�
 ```
-The `IP.bin` object is actually an `@property` method. This object is what you 
+The `libpkt.IP.bin` object is actually an `@property` method. This object is what you 
 use to send a TCP/IP packet in raw form.
 
 ```python
@@ -46,7 +46,20 @@ use to send a TCP/IP packet in raw form.
 >>> psock.sendp(pkt.bin, dst_ip=pkt.dst_ip, dst_p=80)
 True
 ```
+Capturing packets is just as easy using `libpkt.PSocket.recvp`.
 
+```python
+>>> # listen for one TCP/IP packet on the line
+>>> pkt2 = psock.recvp(live=True, max_bb=65565, count=1)[0]
+'E\x00\x00<\x11\x8a\x00\x00<\x062\x07\xac\xd9\x05N\xc0\xa8\xc8[\x00P\xacL\xdb\x92\xca0\xcd\x86R\x14\xa0\x12\xeb b\x9e\x00\x00\x02\x04\x05d\x04\x02\x08\n\xa20\xf5\x07|\x969\x8a\x01\x03\x03\x08'
+
+>>> # looks a bit cryptic. lets pull some data from that
+>>> # where did it come from?
+>>> libpkt.read(pkt2)['src_ip']
+
+>>> # read() can be used to find any properties
+>>> # that you would normally find in your own packet
+```
 
   * ***fast*** packet capture algorithm
   * ***fast*** packing and unpacking
