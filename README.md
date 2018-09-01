@@ -53,13 +53,11 @@ Capturing packets is just as easy using `libpkt.PSocket.recvp`.
 >>> pkt2 = psock.recvp(live=True, max_bb=65565, count=1)[0]
 'E\x00\x00<\x11\x8a\x00\x00<\x062\x07\xac\xd9\x05N\xc0\xa8\xc8[\x00P\xacL\xdb\x92\xca0\xcd\x86R\x14\xa0\x12\xeb b\x9e\x00\x00\x02\x04\x05d\x04\x02\x08\n\xa20\xf5\x07|\x969\x8a\x01\x03\x03\x08'
 
->>> # looks a bit cryptic. lets pull some data from that
 >>> # where did it come from?
->>> libpkt.read(pkt2)['src_ip']
-
->>> # read() can be used to find any properties
->>> # that you would normally find in your own packet
+>>> pkt2.src_ip
+`127.0.1.1`
 ```
+
 
   * ***fast*** packet capture algorithm
   * ***fast*** packing and unpacking
