@@ -52,10 +52,15 @@ Capturing packets is just as easy using `libpkt.PSocket.recvp`.
 >>> # listen for one TCP/IP packet on the line
 >>> pkt2 = psock.recvp(live=True, max_bb=65565, count=1)[0]
 'E\x00\x00<\x11\x8a\x00\x00<\x062\x07\xac\xd9\x05N\xc0\xa8\xc8[\x00P\xacL\xdb\x92\xca0\xcd\x86R\x14\xa0\x12\xeb b\x9e\x00\x00\x02\x04\x05d\x04\x02\x08\n\xa20\xf5\x07|\x969\x8a\x01\x03\x03\x08'
+```
 
->>> # where did it come from?
->>> pkt2.src_ip
-`127.0.1.1`
+The `pkt2` object or in other words whatever `psock.recvp` returns is not as fancy
+as `libpkt.IP`. You cannot just say `pkt2.d_hdr` to get the data or `pkt2.src_ip` to
+get the source address. There is however a built-in `libpkt` method to
+parse these captured packets.
+
+```python
+>>> libpkt.read(pkt2)
 ```
 
 
